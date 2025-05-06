@@ -9,7 +9,7 @@
     <h1>Página principal del sitio</h1>
     <h2>Andrés Felipe Ruiz Medina</h2>
     <!--Formulario de inicio de sesion-->
-    <form action="Modelo/loguear.php" method = "post">
+    <form action="modelo/loguear.php" method = "post">
         <h2>Iniciar sesion</h2>
         <label for="">E-mail:</label>
         <input type="text" name="email" id="" required>
