@@ -1,6 +1,6 @@
 <?php
     error_reporting(E_ALL);
-    ini_set('display_errors','1');
+    ini_set('display_errors', '1');
 ?>
 
 <?php
@@ -10,9 +10,10 @@
 
     if(isset($_SESSION['username']))
     {
-         $nombre_usuario = $_SESSION['username'];
+        $nombre_usuario = $_SESSION['username'];
     }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,22 +26,43 @@
     <?php
         echo 'Usuario: '.$nombre_usuario;
     ?>
-    <!--Formulario de inicio de sesion-->
+    <!--Formulario de registro de un empleado-->
     <form action="modelo/reg_empleado.php" method = "post">
         <h2>Empleado</h2>
-        <label for="">Codigo:</label> 
+        <label for="">Código:</label> 
         <input type="text" name="id_empleado" id="" required>
         <br><br>
         <label for="">Nombre:</label> 
         <input type="text" name="nombre_empleado" id="" required>
         <br><br>
         <label for="">Apellidos:</label> 
-        <input type="text" name="apellidos_empleados" id="" required>
+        <input type="text" name="apellidos_empleado" id="" required>
         <br><br>
-        <label for="">Departamento:</label> 
-        <input type="text" name="departamento_empleado" id="" required>
+        <label for="">Departamento:</label>
+        <!--Mostrar listado de departamos registrados-->
+        <?php
+            if(isset($_SESSION['username']))
+            {
+                // consultar departamentos registrados y ponerlos en una lista tipo select
+                $query_dptos = "SELECT id_departamento, nombre_departamento FROM Departamento ORDER BY nombre_departamento ASC";
+
+                $consulta_dptos = mysqli_query($conexion, $query_dptos) or trigger_error("Error en la consulta MySQL: ".mysqli_error($conexion));
+
+                echo "<select name = 'departamento' required/>";
+                echo "<option value = '0'>Selecione un Departamento</option>";
+                while($row = mysqli_fetch_array($consulta_dptos))
+                {
+                    echo '<option value = "'.$row['id_departamento'].'">'.$row['nombre_departamento'].'</option>';
+                }
+                echo "</select>";
+            }
+            else
+            {
+                header('location: index.php');
+            }
+        ?>
         <br><br>
-        <button type="submit">Ingresar</button>
+        <button type="submit">Registrar</button>
     </form>
 </body>
 </html>
